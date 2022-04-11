@@ -29,4 +29,11 @@ const {title, description} = createTaskDto
     this.tasks.push(task);
     return task;
     }
+
+    deleteTaskById(id: string): string{
+      const task: Task = this.tasks.find(task => task.id === id);
+      const index: number = this.tasks.indexOf(task);
+      this.tasks.splice(index, 1);
+      return 'Task Deleted'
+    }
 }
