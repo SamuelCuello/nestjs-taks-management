@@ -63,11 +63,9 @@ const {title, description} = createTaskDto
     return task;
     }
 
-    deleteTaskById(id: string): string{
-      const task: Task = this.tasks.find(task => task.id === id);
-      const index: number = this.tasks.indexOf(task);
-      this.tasks.splice(index, 1);
-      return 'Task Deleted'
+    deleteTaskById(id: string): void{
+      const found = this.getTaskById(id);
+      this.tasks = this.tasks.filter(task => task.id !== found.id)
     }
 
 
