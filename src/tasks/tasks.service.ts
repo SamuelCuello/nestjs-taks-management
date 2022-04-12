@@ -36,4 +36,11 @@ const {title, description} = createTaskDto
       this.tasks.splice(index, 1);
       return 'Task Deleted'
     }
+
+
+    updateTaskStatus(id: string, status: TaskStatus):Task{
+      const task = this.getTaskById(id);
+      task.status= status;
+      return task;
+    }
 }
