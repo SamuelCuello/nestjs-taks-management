@@ -1,5 +1,5 @@
 import { User } from "../model-user";
-import { ResponseDto } from "../dtos/response.dto";
+import { ResponseDto } from "../dto/response.dto";
 
 export class UserMapper {
   static toDto({ id, fullName, email, isActive }: User): ResponseDto {

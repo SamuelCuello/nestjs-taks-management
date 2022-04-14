@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './model-user';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
-import { ResponseDto } from './dtos/response.dto';
+import { ResponseDto } from './dto/response.dto';
 import { UserMapper } from './mapper/user.mapper';
 
 
