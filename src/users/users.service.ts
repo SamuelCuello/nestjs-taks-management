@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './model-user';
-import { CreateUsersDto } from './DTO/create-user.dto';
+import { CreateUsersDto } from './dto/create-user.dto';
 import {v4 as uuid} from 'uuid';
+import * as bcrypt from 'bcrypt';
+import { ResponseDto } from './dto/response.dto';
 
 
 
@@ -13,26 +15,36 @@ export class UsersService {
     return this.users
   }
 
-  getUserById(id:string): User{
-    const user = this.users.find( user => user.id === id);
+  getUserById(id:string):ResponseDto {
+    const user: User = this.users.find( user => user.id === id);
 
     if (!user) {
      throw new NotFoundException();
       }
-   return user;
+      const {fullName,email,isActive}= user
+
+      const response:ResponseDto={
+        id: user.id,
+        fullName,
+        email,
+        isActive
+      }
+
+   return response;
   }
 
-  createUser(createUsersDto: CreateUsersDto): User{
+  async createUser(createUsersDto: CreateUsersDto): Promise <User>{
     const {fullName, email, password} = createUsersDto
 
-    // const salt= bcrypt.genSalt(10);
-    // const hashPassword = bcrypt.hash(password, salt)
+   console.log(bcrypt);
+    const hashPassword = await bcrypt.hash(password, 10)
 
     const user: User ={
       id:uuid(),
       fullName,
       email,
-      password,
+      password: hashPassword,
+      isActive: true
     }
     this.users.push(user)
     return user
