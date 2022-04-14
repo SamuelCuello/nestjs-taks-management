@@ -10,7 +10,7 @@ export class UsersController {
   constructor (private usersService:UsersService){}
 
   @Get()
-  getAllUsers(): User[]{
+  getAllUsers(): ResponseDto[] {
     return this.usersService.getAllUsers();
   }
 
