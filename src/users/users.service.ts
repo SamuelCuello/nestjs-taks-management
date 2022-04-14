@@ -14,14 +14,8 @@ export class UsersService {
   private users: User[] = [];
 
   getAllUsers(): ResponseDto[] {
-    const response = this.users.map((user: User): ResponseDto => {
-      const response = UserMapper.staticToUserDto(user)
-
-      return response
-
-    })
+    const response = this.users.map(UserMapper.toDtos)
     return response
-
   }
 
   getUserById(id: string): ResponseDto {
@@ -30,7 +24,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
-    const response = UserMapper.staticToUserDto(user)
+    const response = UserMapper.toDto(user)
 
     return response;
   }
@@ -50,7 +44,7 @@ export class UsersService {
     }
     this.users.push(user)
 
-    const response = UserMapper.staticToUserDto(user)
+    const response = UserMapper.toDto(user)
 
    
     return response
