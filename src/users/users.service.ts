@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './model-user';
-import { CreateUsersDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { ResponseDto } from './dto/response.dto';
-// import { User } from '../../dist/users/model-user';
-import { response } from 'express';
+import { UserMapper } from './mapper/user.mapper';
+
 
 
 
@@ -15,14 +15,8 @@ export class UsersService {
 
   getAllUsers(): ResponseDto[] {
     const response = this.users.map((user: User): ResponseDto => {
-      const { id, fullName, email, isActive } = user
+      const response = UserMapper.staticToUserDto(user)
 
-      const response: ResponseDto = {
-        id,
-        fullName,
-        email,
-        isActive
-      }
       return response
 
     })
@@ -36,19 +30,12 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
-    const { fullName, email, isActive } = user
-
-    const response: ResponseDto = {
-      id: user.id,
-      fullName,
-      email,
-      isActive
-    }
+    const response = UserMapper.staticToUserDto(user)
 
     return response;
   }
 
-  async createUser(createUsersDto: CreateUsersDto): Promise<ResponseDto> {
+  async createUser(createUsersDto: CreateUserDto): Promise<ResponseDto> {
     const { fullName, email, password } = createUsersDto
 
     console.log(bcrypt);
@@ -63,13 +50,9 @@ export class UsersService {
     }
     this.users.push(user)
 
-    const response: ResponseDto = {
-      id: user.id,
-      fullName,
-      email,
-      isActive: user.isActive
-    }
+    const response = UserMapper.staticToUserDto(user)
 
+   
     return response
   }
 }
