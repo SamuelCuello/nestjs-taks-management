@@ -33,7 +33,7 @@ export class UsersService {
    return response;
   }
 
-  async createUser(createUsersDto: CreateUsersDto): Promise <User>{
+  async createUser(createUsersDto: CreateUsersDto): Promise <ResponseDto>{
     const {fullName, email, password} = createUsersDto
 
    console.log(bcrypt);
@@ -47,6 +47,14 @@ export class UsersService {
       isActive: true
     }
     this.users.push(user)
-    return user
+
+    const response:ResponseDto={
+      id: user.id,
+      fullName,
+      email,
+      isActive: user.isActive
+    }
+
+    return response
   }
 }
