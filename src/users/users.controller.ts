@@ -18,8 +18,8 @@ export class UsersController {
   //   return this.usersService.getUserById(id);
   // }
 
-  // @Post()
-  // createUser(@Body()createUsersDto: CreateUserDto): Promise<ResponseDto>{
-  //   return this.usersService.createUser(createUsersDto)
-  // }
+  @Post('/singup')
+  async createUser(@Body()createUsersDto: CreateUserDto): Promise<void>{
+    return this.usersService.singUp(createUsersDto)
+  }
 }
