@@ -1,52 +1,57 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from './model-user';
+import { User } from './model.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { ResponseDto } from './dto/response.dto';
 import { UserMapper } from './mapper/user.mapper';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserRepository } from './user.repository';
 
 
 
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
+  constructor(
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
+  ){}
 
-  getAllUsers(): ResponseDto[] {
-    const response = this.users.map(UserMapper.toDtos)
-    return response
-  }
+  // getAllUsers(): ResponseDto[] {
+  //   const response = this.users.map(UserMapper.toDtos)
+  //   return response
+  // }
 
-  getUserById(id: string): ResponseDto {
-    const user: User = this.users.find(user => user.id === id);
+  // getUserById(id: string): ResponseDto {
+  //   const user: User = this.users.find(user => user.id === id);
 
-    if (!user) {
-      throw new NotFoundException();
-    }
-    const response = UserMapper.toDto(user)
+  //   if (!user) {
+  //     throw new NotFoundException();
+  //   }
+  //   const response = UserMapper.toDto(user)
     
-    return response;
-  }
+  //   return response;
+  // }
 
-  async createUser(createUsersDto: CreateUserDto): Promise<ResponseDto> {
-    const { fullName, email, password } = createUsersDto
+  // async createUser(createUsersDto: CreateUserDto): Promise<ResponseDto> {
+  //   const { fullName, email, password } = createUsersDto
 
-    console.log(bcrypt);
-    const hashPassword = await bcrypt.hash(password, 10)
+  //   console.log(bcrypt);
+  //   const hashPassword = await bcrypt.hash(password, 10)
 
-    const user: User = {
-      id: uuid(),
-      fullName,
-      email,
-      password: hashPassword,
-      isActive: true
-    }
-    this.users.push(user)
+  //   const user: User = {
+  //     id: uuid(),
+  //     fullName,
+  //     email,
+  //     password: hashPassword,
+  //     isActive: true
+  //   }
+  //   this.users.push(user)
 
-    const response = UserMapper.toDto(user)
+  //   const response = UserMapper.toDto(user)
 
    
-    return response
-  }
+  //   return response
+  // }
 }
