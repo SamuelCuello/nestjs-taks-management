@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskDto } from './Dto/create_task.dto';
 import { GetTasksFilterDto } from './Dto/get-tasks-filter.dto';
 import { Task } from './Dto/task.entity';
 import { UpdateTaskStatusDto } from './Dto/update-task-status.dto';
-import { TaskStatus } from './tasks-status.enum';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private tasksService: TasksService){}
 
