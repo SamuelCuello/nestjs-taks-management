@@ -5,6 +5,7 @@ import { ResponseDto } from './dto/response.dto';
 import { UserMapper } from './mapper/user.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
+import { AuthUser } from './dto/auth-user.dto';
 
 
 
@@ -19,5 +20,9 @@ export class UsersService {
 
   async singUp(createUserDto: CreateUserDto): Promise<void>{
     return this.userRepository.createUser(createUserDto)
+  }
+
+  async singIn(authUser: AuthUser): Promise<string>{
+    return this.userRepository.singIn(authUser)
   }
 }
