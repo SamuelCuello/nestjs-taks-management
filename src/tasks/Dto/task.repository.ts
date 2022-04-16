@@ -5,18 +5,20 @@ import { TaskStatus } from "../tasks-status.enum";
 import { CreateTaskDto } from "./create_task.dto";
 import { NotFoundException } from "@nestjs/common";
 import { GetTasksFilterDto } from './get-tasks-filter.dto';
+import { User } from "src/users/model.entity";
 
 
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task>{
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto
 
     const task = this.create({
       title,
       description,
-      status: TaskStatus.OPEN
+      status: TaskStatus.OPEN,
+      user,
     });
 
     await this.save(task)

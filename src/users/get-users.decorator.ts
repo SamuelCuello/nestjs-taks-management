@@ -4,5 +4,5 @@ import { User } from "./model.entity";
 export const GetUser = createParamDecorator(
   (_data, ctx:ExecutionContext): User =>{
     const req = ctx.switchToHttp().getRequest();
-    return req.email
+    return req.user
   })
