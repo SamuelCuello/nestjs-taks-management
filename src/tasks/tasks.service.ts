@@ -20,20 +20,20 @@ export class TasksService {
     }
 
 
-  getTaskById(id: string): Promise<Task> {
-    return this.tasksRepository.getTaskById(id)
+  getTaskById(id: string, user: User): Promise<Task> {
+    return this.tasksRepository.getTaskById(id, user)
   }
 
   createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     return this.tasksRepository.createTask(createTaskDto, user)
   }
 
-  deleteTaskById(id: string): Promise<void> {
-    return this.tasksRepository.deleteTaskById(id);
+  deleteTaskById(id: string, user: User): Promise<void> {
+    return this.tasksRepository.deleteTaskById(id, user);
   }
 
 
-  updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
-    return this.tasksRepository.updateTaskStatus(id, status);
+  updateTaskStatus(id: string, status: TaskStatus, user: User): Promise<Task> {
+    return this.tasksRepository.updateTaskStatus(id, status, user);
   }
 }
