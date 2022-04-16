@@ -3,7 +3,7 @@ import { Task } from "./task.entity";
 import { EntityRepository, Repository } from 'typeorm';
 import { TaskStatus } from "../tasks-status.enum";
 import { CreateTaskDto } from "./create_task.dto";
-import { NotFoundException } from "@nestjs/common";
+import { InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { GetTasksFilterDto } from './get-tasks-filter.dto';
 import { User } from "src/users/model.entity";
 
@@ -11,6 +11,8 @@ import { User } from "src/users/model.entity";
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task>{
+  private logger = new Logger('TasksRepository');
+
   async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto
 
@@ -71,7 +73,14 @@ export class TasksRepository extends Repository<Task>{
       );
     }
 
+    try {
     const tasks= await query.getMany();
     return tasks;
+    } catch (error) {
+      this.logger.error(`Failed To get tasks for user: ${
+        user.fullName}, filters: ${JSON.stringify(filterDto)}`);
+      throw new InternalServerErrorException();
+    }
+    
   }
 }
