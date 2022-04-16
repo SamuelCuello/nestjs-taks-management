@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/users/model.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TaskStatus } from '../tasks-status.enum';
 
 
@@ -15,4 +16,7 @@ description: string;
 
 @Column()
 status: TaskStatus;
+
+@ManyToOne((_type)=> User, (user)=> user.tasks, {eager: false})
+user: User
 }
